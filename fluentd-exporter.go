@@ -62,7 +62,7 @@ func NewExporter(uri string) *Exporter {
 		scrapeFailures: prometheus.NewCounter(prometheus.CounterOpts{
 			Namespace: namespace,
 			Name:      "exporter_scrape_failures_total",
-			Help:      "Number of errors while scraping apache.",
+			Help:      "Number of errors while scraping fluentd.",
 		}),
 		bufferTotalQueuedSize: prometheus.NewDesc(
 			prometheus.BuildFQName(namespace, "", "buffer_total_queued_size"),
@@ -175,7 +175,7 @@ func main() {
 	prometheus.MustRegister(exporter)
 	prometheus.MustRegister(version.NewCollector("fluentd_exporter"))
 
-	log.Infoln("Starting apache_exporter", version.Info())
+	log.Infoln("Starting fluentd_exporter", version.Info())
 	log.Infoln("Build context", version.BuildContext())
 
 	log.Infof("Starting Server: %s", *listeningAddress)
