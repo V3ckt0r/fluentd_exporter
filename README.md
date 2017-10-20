@@ -2,6 +2,24 @@
 
 Fluentd exporter uses the fluentd monitoring agent api. Documentation on setting this up can be found [here](https://docs.fluentd.org/v0.12/articles/monitoring)
 
+Help on flags:
+```
+  -Telementry.endpoint string
+    	Path under which to expose metric. (default "/metrics")
+  -insecure
+    	Ignore server certificate if using https, Default: false.
+  -log.format value
+    	Set the log target and format. Example: "logger:syslog?appname=bob&local=7" or "logger:stdout?json=true" (default "logger:stderr")
+  -log.level value
+    	Only log messages with the given severity or above. Valid levels: [debug, info, warn, error, fatal] (default "info")
+  -scrape_uri string
+    	URI to fluentd metrics (default "http://localhost:24220/api/plugins.json")
+  -telementry.address string
+    	Address on which to expose metrics. (default ":9117")
+  -version
+    	Print version information.
+```
+
 ## Collectors
 The exporter collects the following metrics:
 
@@ -28,11 +46,20 @@ Request metrics:
 # TYPE http_response_size_bytes summary
 ```
 
-## Running
+## Building and Running
 ```
-go run fluentd-exporter.go -insecure
+go build fluentd-exporter.go
+./fluentd-exporter
 ```
+
+## Build with Docker
+TODO
+
+## Author
+[Burhan Deniz Abdi](http://www.burhan.io/)
 
 ## Todo:
 - add prometheus/promhttp
 - add tests
+- build CI
+- build with docker
