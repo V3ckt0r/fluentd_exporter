@@ -35,10 +35,8 @@ type Exporter struct {
 	client *http.Client
 
 	up *prometheus.Desc
-	//pluginCategory				*prometheus.Desc
 	bufferQueueLength *prometheus.Desc
 	scrapeFailures    prometheus.Counter
-	//pluginType					*prometheus.Desc
 	bufferTotalQueuedSize *prometheus.Desc
 	retryCount            *prometheus.Desc
 
@@ -48,7 +46,6 @@ type Exporter struct {
 // NewExporter returns an initialized Exporter.
 
 func NewExporter(uri string) *Exporter {
-	//log.Infof("Setup fl client with interval %s", interval)
 	return &Exporter{
 		URI: uri,
 		up: prometheus.NewDesc(
