@@ -37,7 +37,6 @@ type Exporter struct {
 
 	up *prometheus.Desc
 	bufferQueueLength *prometheus.Desc
-	scrapeFailures    prometheus.Counter
 	bufferTotalQueuedSize *prometheus.Desc
 	retryCount            *prometheus.Desc
 
@@ -59,11 +58,6 @@ func NewExporter(uri string) *Exporter {
 			"Buffered queue length",
 			[]string{"pluginId", "pluginCategory"},
 			nil),
-		scrapeFailures: prometheus.NewCounter(prometheus.CounterOpts{
-			Namespace: namespace,
-			Name:      "exporter_scrape_failures_total",
-			Help:      "Number of errors while scraping fluentd.",
-		}),
 		bufferTotalQueuedSize: prometheus.NewDesc(
 			prometheus.BuildFQName(namespace, "", "buffer_total_queued_size"),
 			"size of the total queued",
@@ -88,7 +82,6 @@ func (e *Exporter) Describe(ch chan<- *prometheus.Desc) {
 	ch <- e.bufferQueueLength
 	ch <- e.bufferTotalQueuedSize
 	ch <- e.retryCount
-	e.scrapeFailures.Describe(ch)
 }
 
 // json data structure for fluentd
@@ -156,8 +149,6 @@ func (e *Exporter) Collect(ch chan<- prometheus.Metric) {
 	defer e.mutex.Unlock()
 	if err := e.collect(ch); err != nil {
 		log.Errorf("Error scraping fluentd: %s", err)
-		e.scrapeFailures.Inc()
-		e.scrapeFailures.Collect(ch)
 	}
 	return
 }
