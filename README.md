@@ -35,3 +35,4 @@ go run fluentd-exporter.go -insecure
 
 ## Todo:
 - add prometheus/promhttp
+- add tests
