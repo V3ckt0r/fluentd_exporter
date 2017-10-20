@@ -64,7 +64,7 @@ func NewExporter(uri string) *Exporter {
 			[]string{"pluginId", "pluginCategory"},
 			nil),
 		retryCount: prometheus.NewDesc(
-			prometheus.BuildFQName(namespace, "", "retry"),
+			prometheus.BuildFQName(namespace, "", "retry_total"),
 			"fluentd retry count",
 			[]string{"pluginId", "pluginCategory"},
 			nil),
@@ -133,7 +133,7 @@ func (e *Exporter) collect(ch chan<- prometheus.Metric) error {
 		if plugin.PluginCategory == "input" {
 			continue
 		}
-		ch <- prometheus.MustNewConstMetric(e.bufferQueueLength, prometheus.CounterValue, float64(plugin.BufferQueueLength), plugin.PluginID, plugin.PluginCategory)
+		ch <- prometheus.MustNewConstMetric(e.bufferQueueLength, prometheus.GaugeValue, float64(plugin.BufferQueueLength), plugin.PluginID, plugin.PluginCategory)
 		ch <- prometheus.MustNewConstMetric(e.bufferTotalQueuedSize, prometheus.CounterValue, float64(plugin.BufferTotalQueuedSize), plugin.PluginID, plugin.PluginCategory)
 		ch <- prometheus.MustNewConstMetric(e.retryCount, prometheus.CounterValue, float64(plugin.RetryCount), plugin.PluginID, plugin.PluginCategory)
 	}
