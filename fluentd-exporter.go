@@ -59,12 +59,12 @@ func NewExporter(uri string) *Exporter {
 			[]string{"pluginId", "pluginCategory"},
 			nil),
 		bufferTotalQueuedSize: prometheus.NewDesc(
-			prometheus.BuildFQName(namespace, "", "buffer_total_queued_size"),
+			prometheus.BuildFQName(namespace, "", "buffer_queued_size"),
 			"size of the total queued",
 			[]string{"pluginId", "pluginCategory"},
 			nil),
 		retryCount: prometheus.NewDesc(
-			prometheus.BuildFQName(namespace, "", "retry_count"),
+			prometheus.BuildFQName(namespace, "", "retry"),
 			"fluentd retry count",
 			[]string{"pluginId", "pluginCategory"},
 			nil),
