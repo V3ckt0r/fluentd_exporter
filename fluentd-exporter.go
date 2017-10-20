@@ -10,25 +10,23 @@ import (
 	"github.com/prometheus/common/log"
 	"github.com/prometheus/common/version"
 
-	//"github.com/nlamirault/speedtest_exporter/speedtest"
-	//"github.com/nlamirault/speedtest_exporter/version"
 	"crypto/tls"
-	"sync"
-	"io/ioutil"
 	"encoding/json"
+	"io/ioutil"
+	"sync"
 )
 
 const (
-		namespace = "fluentd" //for Prometheus metrics.
+	namespace = "fluentd" //for Prometheus metrics.
 )
 
 // declare variables for fluentd metrics
 var (
 	listeningAddress = flag.String("telementry.address", ":9117", "Address on which to expose metrics.")
-	metricsEndpoint = flag.String("Telementry.endpoint", "/metrics", "Path under which to expose metric.")
-	scrapeURI = flag.String("scrape_uri", "http://localhost:24220/api/plugins.json", "URI to fluentd metrics")
-	insecure = flag.Bool("insecure", false, "Ignore server certificate if using https, Default: false.")
-	showVersion = flag.Bool("version", false, "Print version information.")
+	metricsEndpoint  = flag.String("Telementry.endpoint", "/metrics", "Path under which to expose metric.")
+	scrapeURI        = flag.String("scrape_uri", "http://localhost:24220/api/plugins.json", "URI to fluentd metrics")
+	insecure         = flag.Bool("insecure", false, "Ignore server certificate if using https, Default: false.")
+	showVersion      = flag.Bool("version", false, "Print version information.")
 )
 
 type Exporter struct {
@@ -36,15 +34,15 @@ type Exporter struct {
 	mutex  sync.Mutex
 	client *http.Client
 
-	up							*prometheus.Desc
+	up *prometheus.Desc
 	//pluginCategory				*prometheus.Desc
-	bufferQueueLength			*prometheus.Desc
-	scrapeFailures				prometheus.Counter
+	bufferQueueLength *prometheus.Desc
+	scrapeFailures    prometheus.Counter
 	//pluginType					*prometheus.Desc
-	bufferTotalQueuedSize		*prometheus.Desc
-	retryCount					*prometheus.Desc
+	bufferTotalQueuedSize *prometheus.Desc
+	retryCount            *prometheus.Desc
 
-	pluginId					map[string]*prometheus.Desc
+	pluginId map[string]*prometheus.Desc
 }
 
 // NewExporter returns an initialized Exporter.
@@ -98,12 +96,12 @@ func (e *Exporter) Describe(ch chan<- *prometheus.Desc) {
 // json data structure for fluentd
 type jsonData struct {
 	Plugins []struct {
-		PluginID       string `json:"plugin_id"`
-		PluginCategory string `json:"plugin_category"`
-		Type           string `json:"type"`
-		RetryCount            int `json:"retry_count"`
-		BufferQueueLength     int         `json:"buffer_queue_length,omitempty"`
-		BufferTotalQueuedSize int         `json:"buffer_total_queued_size,omitempty"`
+		PluginID              string `json:"plugin_id"`
+		PluginCategory        string `json:"plugin_category"`
+		Type                  string `json:"type"`
+		RetryCount            int    `json:"retry_count"`
+		BufferQueueLength     int    `json:"buffer_queue_length,omitempty"`
+		BufferTotalQueuedSize int    `json:"buffer_total_queued_size,omitempty"`
 	} `json:"plugins"`
 }
 
