@@ -59,7 +59,6 @@ TODO
 [Burhan Deniz Abdi](http://www.burhan.io/)
 
 ## Todo:
-- add prometheus/promhttp
 - add tests
 - build CI
 - build with docker
