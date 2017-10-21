@@ -15,7 +15,7 @@ Help on flags:
   -scrape_uri string
     	URI to fluentd metrics (default "http://localhost:24220/api/plugins.json")
   -telementry.address string
-    	Address on which to expose metrics. (default ":9117")
+    	Address on which to expose metrics. (default ":9309")
   -version
     	Print version information.
 ```
