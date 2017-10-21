@@ -52,6 +52,10 @@ go build fluentd-exporter.go
 ./fluentd-exporter
 ```
 
+## Grafana example
+The following [dashbaord](https://grafana.com/dashboards/3522) can be imported into grafana
+![Grafana dashboard](https://i.imgur.com/oBY6urR.png)
+
 ## Build with Docker
 TODO
 
