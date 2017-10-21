@@ -1,4 +1,4 @@
-# Fluentd Exporter for Prometheus
+# Fluentd Exporter for Prometheus [![Build Status](https://travis-ci.org/V3ckt0r/fluentd_exporter.svg?branch=master)](https://travis-ci.org/V3ckt0r/fluentd_exporter)
 
 Fluentd exporter uses the fluentd monitoring agent api. Documentation on setting this up can be found [here](https://docs.fluentd.org/v0.12/articles/monitoring)
 
