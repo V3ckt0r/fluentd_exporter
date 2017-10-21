@@ -39,8 +39,6 @@ type Exporter struct {
 	bufferQueueLength *prometheus.Desc
 	bufferTotalQueuedSize *prometheus.Desc
 	retryCount            *prometheus.Desc
-
-	pluginId map[string]*prometheus.Desc
 }
 
 // NewExporter returns an initialized Exporter.
