@@ -58,7 +58,3 @@ TODO
 ## Author
 [Burhan Deniz Abdi](http://www.burhan.io/)
 
-## Todo:
-- add tests
-- build CI
-- build with docker
