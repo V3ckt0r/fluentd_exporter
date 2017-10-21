@@ -59,6 +59,9 @@ The following [dashbaord](https://grafana.com/dashboards/3522) can be imported i
 ## Build with Docker
 TODO
 
+## Contribute 
+Feel free to open an issue or PR if you have suggestions or ideas about what to add.
+
 ## Author
 [Burhan Deniz Abdi](http://www.burhan.io/)
 
