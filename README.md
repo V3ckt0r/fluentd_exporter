@@ -56,8 +56,9 @@ go build fluentd-exporter.go
 The following [dashbaord](https://grafana.com/dashboards/3522) can be imported into grafana
 ![Grafana dashboard](https://i.imgur.com/oBY6urR.png)
 
-## Build with Docker
-TODO
+## Docker
+It is intended that this exporter be placed on the host that Fluentd is running from. If you are using fluentd as a log driver for Docker then place this exporter on the host.
+Documentation around setting up Fluentd as a logging driver for Docker can be found [here](https://docs.docker.com/engine/admin/logging/fluentd/)
 
 ## Contribute 
 Feel free to open an issue or PR if you have suggestions or ideas about what to add.
