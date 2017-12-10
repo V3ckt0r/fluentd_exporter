@@ -23,8 +23,8 @@ const (
 
 // declare variables for fluentd metrics
 var (
-	listeningAddress = flag.String("telementry.address", ":9309", "Address on which to expose metrics.")
-	metricsEndpoint  = flag.String("Telementry.endpoint", "/metrics", "Path under which to expose metric.")
+	listeningAddress = flag.String("telemetry.address", ":9309", "Address on which to expose metrics.")
+	metricsEndpoint  = flag.String("telemetry.endpoint", "/metrics", "Path under which to expose metric.")
 	scrapeURI        = flag.String("scrape_uri", "http://localhost:24220/api/plugins.json", "URI to fluentd metrics")
 	insecure         = flag.Bool("insecure", false, "Ignore server certificate if using https, Default: false.")
 	showVersion      = flag.Bool("version", false, "Print version information.")
