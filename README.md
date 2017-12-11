@@ -4,7 +4,7 @@ Fluentd exporter uses the fluentd monitoring agent api. Documentation on setting
 
 Help on flags:
 ```
-  -Telementry.endpoint string
+  -telemetry.endpoint string
     	Path under which to expose metric. (default "/metrics")
   -insecure
     	Ignore server certificate if using https, Default: false.
@@ -14,7 +14,7 @@ Help on flags:
     	Only log messages with the given severity or above. Valid levels: [debug, info, warn, error, fatal] (default "info")
   -scrape_uri string
     	URI to fluentd metrics (default "http://localhost:24220/api/plugins.json")
-  -telementry.address string
+  -telemetry.address string
     	Address on which to expose metrics. (default ":9309")
   -version
     	Print version information.
