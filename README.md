@@ -70,8 +70,9 @@ go build fluentd-exporter.go
 #### Building a docker image
 ```
 docker build -t fluentd_exporter .
-docker run -it fluentd_exporter go-wrapper run -scrape_uri <fluentd-metrics-endpoint>
+docker run -it -p 9309:9309 fluentd_exporter go-wrapper run -scrape_uri <fluentd-metrics-endpoint>
 ```
+Note: A change in `-telemetry.address` flag will require changing the port in `-p` flag of `docker run` command as well.
 
 ## Grafana dashboard
 
