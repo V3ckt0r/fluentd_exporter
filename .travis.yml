@@ -4,7 +4,7 @@ matrix:
   include:
     - language: go
       go: 
-        - 1.8.x
+        - 1.9
 
     - language: bash
       services:
@@ -14,7 +14,7 @@ matrix:
       after_success:
         - if [ "$TRAVIS_BRANCH" == "master" ]; then
           docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
-          docker push vect0r/nginx-crl-check;
+          docker push vect0r/fluentd_exporter;
           fi
 
 notifications:
