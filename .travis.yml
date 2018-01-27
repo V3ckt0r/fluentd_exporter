@@ -4,8 +4,8 @@ matrix:
   include:
     - language: go
       go: 
-      - 1.8.x
-      - master
+        - 1.8.x
+        - master
 
     - language: bash
       services:
