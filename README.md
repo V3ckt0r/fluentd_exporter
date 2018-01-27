@@ -74,6 +74,12 @@ docker run -it -p 9309:9309 fluentd_exporter go-wrapper run -scrape_uri <fluentd
 ```
 Note: A change in `-telemetry.address` flag will require changing the port in `-p` flag of `docker run` command as well.
 
+#### Docker image
+You can find the latest docker image [here](https://hub.docker.com/r/vect0r/fluentd_exporter/):
+```
+docker pull vect0r/fluentd_exporter
+```
+
 ## Grafana dashboard
 
 The following [dashboard](https://grafana.com/dashboards/3522) can be imported into grafana
