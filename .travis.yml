@@ -1,5 +1,23 @@
-language: go
+sudo: required
 
-go:
-- 1.8.x
-- master
+matrix:
+  include:
+    - language: go
+      go: 
+      - 1.8.x
+      - master
+
+    - language: bash
+      services:
+        - docker
+      script:
+        - docker build -t vect0r/fluentd_exporter .
+      after_success:
+        - if [ "$TRAVIS_BRANCH" == "master" ]; then
+          docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
+          docker push vect0r/nginx-crl-check;
+          fi
+
+notifications:
+  email:
+    - "$EMAIL"
