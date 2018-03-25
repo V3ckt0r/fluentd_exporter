@@ -5,16 +5,11 @@ import (
 	"fmt"
 	"os"
 	"sync"
-	//"path/filepath"
 
 	"github.com/prometheus/common/log"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/rest"
-	//"k8s.io/apimachinery/pkg/api/errors"
-	//metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	//"k8s.io/client-go/kubernetes"
-	//"k8s.io/client-go/tools/clientcmd"
 )
 
 var (
@@ -32,33 +27,16 @@ func HomeDir() string {
 	return os.Getenv("USERPROFILE") // windows
 }
 
-/*func CreateClient() *kubernetes.Clientset {
-	// use the current context in kubeconfig if out of cluser
-	config, err := clientcmd.BuildConfigFromFlags("", *kubeconfig)
-	if err != nil {
-		panic(err.Error())
-	}
-
-	// create the clientset
-	clientset, err := kubernetes.NewForConfig(config)
-	if err != nil {
-		panic(err.Error())
-	}
-	return clientset
-} */
-
 func GetNamespaces(clientset *kubernetes.Clientset) []string {
 	var namespaces []string
 	ns, err := clientset.CoreV1().Namespaces().List(metav1.ListOptions{})
 	if err != nil {
 		fmt.Println("Some error occured...")
 	}
-
 	for _, n := range ns.Items {
 		namespaces = append(namespaces, n.ObjectMeta.Name)
 		fmt.Println("Namespaces: ", n.ObjectMeta.Name)
 	}
-
 	return namespaces
 }
 
@@ -100,7 +78,7 @@ func GetAllServices(clientset *kubernetes.Clientset) ([]Service, error) {
 			} else {
 				for _, s := range service {
 					// Only allow one goroutine through this
-					// critical section at a time.
+					// critical section at a time. Needed to avoid race condition.
 					mutex.Lock()
 					services = append(services, s)
 					mutex.Unlock()
@@ -136,30 +114,3 @@ func GetClient() *kubernetes.Clientset {
 	}
 	return clientset
 }
-
-/*
-	for {
-		pods, err := clientset.CoreV1().Pods("").List(metav1.ListOptions{})
-		if err != nil {
-			panic(err.Error())
-		}
-		fmt.Printf("There are %d pods in the cluster\n", len(pods.Items))
-
-		// Examples for error handling:
-		// - Use helper functions like e.g. errors.IsNotFound()
-		// - And/or cast to StatusError and use its properties like e.g. ErrStatus.Message
-		_, err := clientset.CoreV1().Pods("default").Get("example-xxxxx", metav1.GetOptions{})
-    _, err := clientset.CoreV1().Services("default").List(metav1.ListOptions{})
-
-		if errors.IsNotFound(err) {
-			fmt.Printf("Service not found\n")
-		} else if statusError, isStatus := err.(*errors.StatusError); isStatus {
-			fmt.Printf("Error getting pod %v\n", statusError.ErrStatus.Message)
-		} else if err != nil {
-			panic(err.Error())
-		} else {
-			fmt.Printf("Found pod\n")
-		}
-
-		time.Sleep(10 * time.Second)
-	} */
