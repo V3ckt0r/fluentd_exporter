@@ -170,9 +170,6 @@ func main() {
 		// init client
 		client := desc.GetClient()
 
-		// find Namespaces
-		namespaces := desc.GetNamespaces(client)
-
 		// get all Services
 		services, err := desc.GetAllServices(client)
 		if err != nil {

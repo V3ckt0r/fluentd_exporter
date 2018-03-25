@@ -18,8 +18,7 @@ import (
 )
 
 var (
-	client = GetClient()
-	wg     sync.WaitGroup
+	wg sync.WaitGroup
 	// mutex is used to define a critical section of code.
 	mutex sync.Mutex
 )
@@ -87,6 +86,7 @@ func GetServices(namespace string, clientset *kubernetes.Clientset) ([]Service, 
 
 func GetAllServices(clientset *kubernetes.Clientset) ([]Service, error) {
 	services := make([]Service, 0)
+	client := GetClient()
 	namespaces := GetNamespaces(client)
 
 	wg.Add(len(namespaces))
