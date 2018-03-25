@@ -180,7 +180,7 @@ func main() {
 		exporters := make([]*Exporter, 0)
 		for _, s := range services {
 			endpoint := fmt.Sprintf("http://%v:%v/api/plugins.json", s.ClusterIP, s.Port)
-			exporters = append(exporters, NewExporter(endpoint)) //http://localhost:24220/api/plugins.json
+			exporters = append(exporters, NewExporter(endpoint))
 		}
 		// register exporters
 		for _, e := range exporters {
