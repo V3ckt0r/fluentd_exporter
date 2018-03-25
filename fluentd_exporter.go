@@ -11,6 +11,9 @@ import (
 	"github.com/prometheus/common/log"
 	"github.com/prometheus/common/version"
 
+	// import util package
+	desc "./pkg/descovery"
+
 	"crypto/tls"
 	"encoding/json"
 	"io/ioutil"
@@ -28,6 +31,8 @@ var (
 	scrapeURI        = flag.String("scrape_uri", "http://localhost:24220/api/plugins.json", "URI to fluentd metrics")
 	insecure         = flag.Bool("insecure", false, "Ignore server certificate if using https, Default: false.")
 	showVersion      = flag.Bool("version", false, "Print version information.")
+	kubernetes       = flag.Bool("kubernetes", false, "Running in a kubernetes cluster? Default: false.")
+	kubeconf         = flag.String("kubeconf", desc.HomeDir(), "Config file location, Default "+desc.HomeDir())
 )
 
 type Exporter struct {
@@ -35,8 +40,8 @@ type Exporter struct {
 	mutex  sync.Mutex
 	client *http.Client
 
-	up *prometheus.Desc
-	bufferQueueLength *prometheus.Desc
+	up                    *prometheus.Desc
+	bufferQueueLength     *prometheus.Desc
 	bufferTotalQueuedSize *prometheus.Desc
 	retryCount            *prometheus.Desc
 }
@@ -159,10 +164,41 @@ func main() {
 		os.Exit(0)
 	}
 
-	exporter := NewExporter(*scrapeURI)
+	if *kubernetes {
+		fmt.Fprintln(os.Stdout, version.Print("In cluster flag enabled.."))
 
-	prometheus.MustRegister(exporter)
-	prometheus.MustRegister(version.NewCollector("fluentd_exporter"))
+		// init client
+		client := desc.GetClient()
+
+		// find Namespaces
+		namespaces := desc.GetNamespaces(client)
+
+		// get all Services
+		services, err := desc.GetAllServices(client)
+		if err != nil {
+			log.Errorf("")
+		}
+
+		//services, err := desc.GetServices()
+
+		// create exporters
+		exporters := make([]*Exporter, 0)
+		for _, s := range services {
+			endpoint := fmt.Sprintf("http://%v:%v/api/plugins.json", s.ClusterIP, s.Port)
+			exporters = append(exporters, NewExporter(endpoint)) //http://localhost:24220/api/plugins.json
+		}
+		// register exporters
+		for _, e := range exporters {
+			prometheus.MustRegister(e)
+		}
+		prometheus.MustRegister(version.NewCollector("fluentd_exporter"))
+
+		// not running inside a cluster
+	} else {
+		exporter := NewExporter(*scrapeURI)
+		prometheus.MustRegister(exporter)
+		prometheus.MustRegister(version.NewCollector("fluentd_exporter"))
+	}
 
 	log.Infoln("Starting fluentd_exporter", version.Info())
 	log.Infoln("Build context", version.BuildContext())
