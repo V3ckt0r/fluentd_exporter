@@ -176,8 +176,6 @@ func main() {
 			log.Errorf("")
 		}
 
-		//services, err := desc.GetServices()
-
 		// create exporters
 		exporters := make([]*Exporter, 0)
 		for _, s := range services {
