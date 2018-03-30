@@ -31,11 +31,11 @@ func GetNamespaces(clientset *kubernetes.Clientset) []string {
 	var namespaces []string
 	ns, err := clientset.CoreV1().Namespaces().List(metav1.ListOptions{})
 	if err != nil {
-		fmt.Println("Some error occured...")
+		log.Errorf("Error getting namespaces, %v", err)
 	}
 	for _, n := range ns.Items {
 		namespaces = append(namespaces, n.ObjectMeta.Name)
-		fmt.Println("Namespaces: ", n.ObjectMeta.Name)
+		log.Debugf("Namespaces: ", n.ObjectMeta.Name)
 	}
 	return namespaces
 }
@@ -45,7 +45,7 @@ func GetServices(namespace string, clientset *kubernetes.Clientset) ([]Service, 
 	var services []Service
 	servs, err := clientset.CoreV1().Services(namespace).List(metav1.ListOptions{})
 	if err != nil {
-		return nil, fmt.Errorf("Could not get services in namespace: %v", err)
+		return nil, fmt.Errorf("Could not get services in namespace, %v", err)
 	}
 	// look through services
 	for _, s := range servs.Items {
@@ -56,7 +56,7 @@ func GetServices(namespace string, clientset *kubernetes.Clientset) ([]Service, 
 				Port:      s.Spec.Ports[0].Port,
 			}
 			services = append(services, *retService)
-			fmt.Println("Found Service match: ", s.ObjectMeta.Name)
+			log.Debugf("Found Service match: ", s.ObjectMeta.Name)
 		}
 	}
 	return services, nil
