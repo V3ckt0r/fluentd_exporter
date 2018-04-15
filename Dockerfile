@@ -1,7 +1,5 @@
 FROM golang:1.10.1-alpine
 
-RUN mkdir -p /go/src/app
-WORKDIR /go/src/app
-COPY ./fluentd_exporter .
+COPY ./fluentd_exporter /bin/fluentd_exporter
 
-CMD ["fluentd_exporter"]
+ENTRYPOINT ["/bin/fluentd_exporter"]
