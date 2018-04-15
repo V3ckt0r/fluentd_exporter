@@ -1,10 +1,5 @@
-FROM golang:1.8
+FROM golang:1.10.1-alpine
 
-RUN mkdir -p /go/src/app
-WORKDIR /go/src/app
-COPY ./fluentd_exporter.go .
+COPY ./fluentd_exporter /bin/fluentd_exporter
 
-RUN go-wrapper download && \
-    go-wrapper install
-
-CMD ["go-wrapper","run"]
+ENTRYPOINT ["/bin/fluentd_exporter"]
